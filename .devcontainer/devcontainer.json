@@ -1,0 +1,31 @@
+{
+    "name": "PX4 ROS Development",
+    "dockerComposeFile": "docker-compose.yml",
+    "service": "px4",
+    "workspaceFolder": "/workspace",
+    "shutdownAction": "stopCompose",
+    "runServices": ["px4"],
+    
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools",
+                "ms-vscode.cmake-tools",
+                "ms-python.python",
+                "ms-iot.vscode-ros",
+                "twxs.cmake",
+                "ms-vscode.vscode-json"
+            ],
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "python.defaultInterpreterPath": "/usr/bin/python3"
+            }
+        }
+    },
+    
+    "forwardPorts": [],
+    
+    "postCreateCommand": "echo 'PX4 ROS Development Container Ready!'",
+    
+    "remoteUser": "root"
+}

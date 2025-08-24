@@ -1,0 +1,28 @@
+services:
+  px4:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        - ROS_VERSION=${ROS_VERSION}
+        - PX4_VERSION=${PX4_VERSION}
+    image: px4_ros:${ROS_VERSION}
+    container_name: px4_ros
+    environment:
+      - DISPLAY=:0
+      - QT_X11_NO_MITSHM=1
+    volumes:
+      - /tmp/.X11-unix:/tmp/.X11-unix:rw
+      - /dev:/dev
+      - ..:/workspace
+    network_mode: host
+    privileged: true
+    stdin_open: true         # <- 保持终端开启 
+    tty: true                # <- 分配伪终端
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - capabilities: [gpu]
+              count: all
+              driver: nvidia
