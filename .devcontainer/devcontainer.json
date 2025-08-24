@@ -17,7 +17,8 @@
                 "ms-python.python",
                 "ms-iot.vscode-ros",
                 "twxs.cmake",
-                "ms-vscode.vscode-json"
+                "ms-vscode.vscode-json",
+                "llvm-vs-code-extensions.vscode-clangd"
             ],
             "settings": {
                 "terminal.integrated.defaultProfile.linux": "bash",
