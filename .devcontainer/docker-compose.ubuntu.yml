@@ -2,7 +2,7 @@ services:
   px4:
     build:
       context: .
-      dockerfile: Dockerfile
+      dockerfile: Dockerfile.ubuntu
       args:
         - ROS_VERSION=${ROS_VERSION}
         - PX4_VERSION=${PX4_VERSION}
