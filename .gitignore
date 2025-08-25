@@ -3,3 +3,6 @@ docker-compose.override.yml
 
 # MacOS
 .DS_Store
+
+# workspace
+ws-*
