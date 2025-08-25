@@ -3,3 +3,9 @@ docker-compose.override.yml
 
 # MacOS
 .DS_Store
+
+# vscode
+.vscode
+
+#JetBrains
+.idea
