@@ -9,3 +9,6 @@ docker-compose.override.yml
 
 #JetBrains
 .idea
+
+# build
+build/

@@ -1,25 +1,34 @@
+ARG ROS_VERSION=noetic
+
 FROM tiryoh/ros-desktop-vnc:noetic-20250824T0424
 
-RUN apt-get update && apt-get install -y libxml2-dev libxslt1-dev && pip install lxml
+RUN apt-get update && apt-get install -y \
+    libxml2-dev \
+    libxslt1-dev \
+    wget \
+    git \
+    python3-pip \
+    python3-tk \
+    gcc-arm-none-eabi \
+    clangd \
+    ros-${ROS_VERSION}-mavros \
+    ros-${ROS_VERSION}-mavros-extras \
+    ros-${ROS_VERSION}-mavros-msgs
+RUN pip install lxml
 
 WORKDIR /px4
 
 ARG PX4_VERSION=main
-ARG ROS_VERSION=noetic
 
-RUN git clone --branch ${PX4_VERSION} --recurse-submodules --shallow-submodules --depth 1 https://github.com/PX4/PX4-Autopilot.git
+RUN wget https://raw.githubusercontent.com/PX4/PX4-Autopilot/main/Tools/setup/requirements.txt && \
+    wget https://raw.githubusercontent.com/PX4/PX4-Autopilot/main/Tools/setup/ubuntu.sh && \
+    wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh && \
+    bash ./ubuntu.sh && \
+    bash ./install_geographiclib_datasets.sh && \
+    rm ./ubuntu.sh ./requirements.txt ./install_geographiclib_datasets.sh
 
-RUN useradd -m -s /bin/bash ubuntu && \
-    usermod -aG sudo ubuntu
+RUN echo "source /opt/ros/${ROS_VERSION}/setup.bash" >> /root/.bashrc
 
-RUN bash /px4/PX4-Autopilot/Tools/setup/ubuntu.sh
+WORKDIR /workspace
 
-RUN apt-get install -y \
-    ros-${ROS_VERSION}-mavros \
-    ros-${ROS_VERSION}-mavros-extras \
-    ros-${ROS_VERSION}-mavros-msgs
-    
-RUN wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh && \
-    bash /px4/install_geographiclib_datasets.sh
-
-RUN rm -rf /px4
+CMD [ "bash" ]
