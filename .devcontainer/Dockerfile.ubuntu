@@ -48,4 +48,7 @@ RUN echo "source /opt/ros/${ROS_VERSION}/setup.bash" >> /root/.bashrc
 
 WORKDIR /ws
 
+RUN apt install -y psmisc
+
+
 CMD [ "bash" ]
