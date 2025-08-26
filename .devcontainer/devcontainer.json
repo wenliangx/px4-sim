@@ -5,7 +5,7 @@
         "docker-compose.override.yml"
     ],
     "service": "px4",
-    "workspaceFolder": "/workspace",
+    "workspaceFolder": "/ws",
     "shutdownAction": "stopCompose",
     "runServices": ["px4"],
     
@@ -16,7 +16,8 @@
                 "ms-vscode.cmake-tools",
                 "ms-python.python",
                 "ms-vscode.vscode-json",
-                "llvm-vs-code-extensions.vscode-clangd"
+                "llvm-vs-code-extensions.vscode-clangd",
+                "xaver.clang-format"
             ],
             "settings": {
                 "terminal.integrated.defaultProfile.linux": "bash",

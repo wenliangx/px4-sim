@@ -14,7 +14,7 @@ services:
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /dev:/dev
-      - ..:/workspace
+      - ../ws_fsm:/ws
     network_mode: host
     privileged: true
     stdin_open: true         # <- 保持终端开启 

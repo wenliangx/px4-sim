@@ -12,3 +12,7 @@ docker-compose.override.yml
 
 # build
 build/
+
+# clangd
+.clangd
+compile_commands.json
