@@ -1,14 +1,14 @@
 {
-    "name": "PX4 ROS Development",
+    "name": "ROS Development",
     "initializeCommand": "./.devcontainer/choose-container.sh",
     "dockerComposeFile": [
-        "docker-compose.override.yml"
+        "docker-compose.onlyros.yml"
     ],
-    "service": "px4",
+    "service": "ros",
     "workspaceFolder": "/ws",
     "shutdownAction": "stopCompose",
-    "runServices": ["px4"],
-    
+    "runServices": ["ros"],
+
     "customizations": {
         "vscode": {
             "extensions": [
@@ -27,8 +27,8 @@
     },
     
     "forwardPorts": [],
-    
-    "postCreateCommand": "echo 'PX4 ROS Development Container Ready!'",
-    
+
+    "postCreateCommand": "echo 'ROS Development Container Ready!'",
+
     "remoteUser": "root"
 }

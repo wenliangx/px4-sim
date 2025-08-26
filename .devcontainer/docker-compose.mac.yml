@@ -11,7 +11,7 @@ services:
     image: px4-mac:noetic
     container_name: ros-vnc
     volumes:
-      - ..:/workspace
+      - ../ws_fsm:/ws
     ports:
       - 6080:80
       - "14570:14570/udp"

@@ -1,24 +1,25 @@
 ARG ROS_VERSION=noetic
 
-FROM tiryoh/ros-desktop-vnc:noetic-20250824T0424
+FROM tiryoh/ros-desktop-vnc:${ROS_VERSION}
+
+ARG ROS_VERSION=noetic
 
 RUN apt-get update && apt-get install -y \
     libxml2-dev \
     libxslt1-dev \
-    wget \
-    git \
-    python3-pip \
-    python3-tk \
     gcc-arm-none-eabi \
     clangd \
     ros-${ROS_VERSION}-mavros \
     ros-${ROS_VERSION}-mavros-extras \
     ros-${ROS_VERSION}-mavros-msgs
+
 RUN pip install lxml
 
 WORKDIR /px4
 
 ARG PX4_VERSION=main
+
+ENV USER=root
 
 RUN wget https://raw.githubusercontent.com/PX4/PX4-Autopilot/main/Tools/setup/requirements.txt && \
     wget https://raw.githubusercontent.com/PX4/PX4-Autopilot/main/Tools/setup/ubuntu.sh && \
@@ -26,6 +27,23 @@ RUN wget https://raw.githubusercontent.com/PX4/PX4-Autopilot/main/Tools/setup/re
     bash ./ubuntu.sh && \
     bash ./install_geographiclib_datasets.sh && \
     rm ./ubuntu.sh ./requirements.txt ./install_geographiclib_datasets.sh
+
+RUN git clone https://github.com/PX4/PX4-Autopilot.git && \
+    cd PX4-Autopilot && \
+    git submodule update --init --recursive
+
+WORKDIR /ws
+
+ARG CASADI_VERSION=3.6.5
+
+RUN wget -O  /ws/casadi-${CASADI_VERSION}.tar.gz https://github.com/casadi/casadi/archive/refs/tags/${CASADI_VERSION}.tar.gz && \
+    tar -xzf /ws/casadi-${CASADI_VERSION}.tar.gz -C /ws && \
+    cd /ws/casadi-${CASADI_VERSION} && \
+    mkdir build && cd build && \
+    cmake .. && \
+    make && \
+    make install && \
+    cd /ws && rm -rf casadi-${CASADI_VERSION}*
 
 RUN echo "source /opt/ros/${ROS_VERSION}/setup.bash" >> /root/.bashrc
 

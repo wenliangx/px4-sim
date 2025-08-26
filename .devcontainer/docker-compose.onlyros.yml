@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  ros:
+    build:
+      context: .
+      dockerfile: Dockerfile.onlyros
+      args:
+        - ROS_VERSION=${ROS_VERSION}
+    image: my-ros:${ROS_VERSION}
+    container_name: ros
+    volumes:
+      - ../ws_fsm:/ws
+    tty: true
+    stdin_open: true
+    command: /bin/bash

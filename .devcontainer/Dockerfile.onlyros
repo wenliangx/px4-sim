@@ -1,0 +1,22 @@
+ARG ROS_VERSION=noetic
+
+FROM ros:${ROS_VERSION}-ros-base
+
+RUN apt-get update && apt-get install -y \
+    wget \
+    git \
+    clangd \
+    python3-pip
+
+WORKDIR /ws
+
+ARG CASADI_VERSION=3.6.5
+
+RUN wget -O  /ws/casadi-${CASADI_VERSION}.tar.gz https://github.com/casadi/casadi/archive/refs/tags/${CASADI_VERSION}.tar.gz && \
+    tar -xzf /ws/casadi-${CASADI_VERSION}.tar.gz -C /ws && \
+    cd /ws/casadi-${CASADI_VERSION} && \
+    mkdir build && cd build && \
+    cmake .. && \
+    make && \
+    make install && \
+    cd /ws && rm -rf casadi-${CASADI_VERSION}*

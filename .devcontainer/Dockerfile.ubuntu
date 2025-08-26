@@ -2,7 +2,7 @@ ARG ROS_VERSION=noetic
 
 FROM osrf/ros:${ROS_VERSION}-desktop-full
 
-ARG ROS_VERSION
+ARG ROS_VERSION=noetic
 
 RUN apt-get update && apt-get install -y \
     wget \
