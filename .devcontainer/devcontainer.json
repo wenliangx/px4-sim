@@ -2,12 +2,12 @@
     "name": "ROS Development",
     "initializeCommand": "./.devcontainer/choose-container.sh",
     "dockerComposeFile": [
-        "docker-compose.onlyros.yml"
+        "docker-compose.override.yml"
     ],
-    "service": "ros",
+    "service": "px4",
     "workspaceFolder": "/ws",
     "shutdownAction": "stopCompose",
-    "runServices": ["ros"],
+    "runServices": ["px4"],
 
     "customizations": {
         "vscode": {
