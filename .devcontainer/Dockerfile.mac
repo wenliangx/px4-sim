@@ -1,0 +1,92 @@
+ARG ROS_VERSION=noetic
+
+# FROM tiryoh/ros-desktop-vnc:${ROS_VERSION}
+FROM ros:${ROS_VERSION}-ros-base
+
+
+ARG ROS_VERSION=noetic
+
+RUN apt-get update && apt-get install -y \
+    git \
+    python3-pip \
+    wget \
+    libxml2-dev \
+    libxslt1-dev \
+    clangd \
+    ros-${ROS_VERSION}-mavros \
+    ros-${ROS_VERSION}-mavros-extras \
+    ros-${ROS_VERSION}-mavros-msgs
+
+RUN pip install lxml
+
+WORKDIR /px4
+
+ARG PX4_VERSION=main
+
+ENV USER=root
+
+RUN wget https://raw.githubusercontent.com/PX4/PX4-Autopilot/main/Tools/setup/requirements.txt && \
+    wget https://raw.githubusercontent.com/PX4/PX4-Autopilot/main/Tools/setup/ubuntu.sh && \
+    wget https://raw.githubusercontent.com/mavlink/mavros/master/mavros/scripts/install_geographiclib_datasets.sh && \
+    # bash ./ubuntu.sh && \
+    bash ./install_geographiclib_datasets.sh && \
+    rm ./ubuntu.sh ./requirements.txt ./install_geographiclib_datasets.sh
+
+RUN git clone https://github.com/PX4/PX4-Autopilot.git && \
+    cd PX4-Autopilot && \
+    git submodule update --init --recursive
+
+WORKDIR /ws
+
+ARG CASADI_VERSION=3.6.5
+
+RUN wget -O  /ws/casadi-${CASADI_VERSION}.tar.gz https://github.com/casadi/casadi/archive/refs/tags/${CASADI_VERSION}.tar.gz && \
+    tar -xzf /ws/casadi-${CASADI_VERSION}.tar.gz -C /ws && \
+    cd /ws/casadi-${CASADI_VERSION} && \
+    mkdir build && cd build && \
+    cmake .. && \
+    make && \
+    make install && \
+    cd /ws && rm -rf casadi-${CASADI_VERSION}*
+
+
+RUN apt-get install -y --fix-missing \
+    gcc-multilib-arm-linux-gnueabi \
+    gcc-multilib-arm-linux-gnueabihf \
+    g++-multilib-arm-linux-gnueabi \
+    g++-multilib-arm-linux-gnueabihf \
+    bison flex gettext texinfo libncurses5-dev libncursesw5-dev xxd \
+    git gperf automake libtool pkg-config build-essential gperf genromfs \
+    libgmp-dev libmpc-dev libmpfr-dev libisl-dev binutils-dev libelf-dev \
+    libexpat1-dev picocom u-boot-tools util-linux \
+    kconfig-frontends \
+	dmidecode \
+	gstreamer1.0-plugins-bad \
+	gstreamer1.0-plugins-base \
+	gstreamer1.0-plugins-good \
+	gstreamer1.0-plugins-ugly \
+	gstreamer1.0-libav \
+	libeigen3-dev \
+	libgstreamer-plugins-base1.0-dev \
+	libimage-exiftool-perl \
+	libopencv-dev \
+	libxml2-utils \
+	pkg-config \
+	protobuf-compiler
+
+RUN wget http://packages.osrfoundation.org/gazebo/ubuntu-stable/pool/main/g/gazebo11/gazebo11-common_11.15.1-1~focal_all.deb && \
+    apt install -y ./gazebo11-common_11.15.1-1~focal_all.deb && \
+    apt install -y gazebo11 libgazebo11-dev
+
+RUN pip3 install kconfiglib jinja2 jsonschema
+
+# ENV DEBIAN_FRONTEND=noninteractive
+# RUN echo "lightdm shared/default-x-display-manager select lightdm" | debconf-set-selections && \
+#     apt-get install -y \
+#     xfce4 xfce4-goodies \
+#     tightvncserver novnc websockify xterm
+RUN echo "source /opt/ros/${ROS_VERSION}/setup.bash" >> /root/.bashrc
+
+WORKDIR /workspace
+
+CMD [ "bash" ]
