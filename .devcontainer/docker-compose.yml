@@ -10,9 +10,12 @@ services:
         - PX4_VERSION=${PX4_VERSION}
     image: px4_ros:${ROS_VERSION}
     container_name: px4_ros
+    runtime: nvidia 
     environment:
       - DISPLAY=:0
       - QT_X11_NO_MITSHM=1
+      - NVIDIA_VISIBLE_DEVICES=all       # 等价于 --gpus all
+      - NVIDIA_DRIVER_CAPABILITIES=all   # 启用 graphics, utility, compute, video
     volumes:
       - /tmp/.X11-unix:/tmp/.X11-unix:rw
       - /dev:/dev

@@ -1,0 +1,33 @@
+{
+    "name": "ROS Development",
+    "dockerComposeFile": [
+        "docker-compose.yml"
+    ],
+    "service": "px4-linux-x86_64",
+    "workspaceFolder": "/ws",
+    "shutdownAction": "stopCompose",
+    "runServices": ["px4-linux-x86_64"],
+
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools",
+                "ms-vscode.cmake-tools",
+                "ms-python.python",
+                "ms-vscode.vscode-json",
+                "llvm-vs-code-extensions.vscode-clangd",
+                "xaver.clang-format"
+            ],
+            "settings": {
+                "terminal.integrated.defaultProfile.linux": "bash",
+                "python.defaultInterpreterPath": "/usr/bin/python3"
+            }
+        }
+    },
+    
+    "forwardPorts": [],
+
+    "postCreateCommand": "echo 'ROS Development Container Ready!'",
+
+    "remoteUser": "root"
+}
