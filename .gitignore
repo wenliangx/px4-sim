@@ -6,3 +6,6 @@ docker-compose.override.yml
 
 # workspace
 ws-*
+
+# devcontainer
+.devcontainer/devcontainer.json

@@ -30,4 +30,14 @@ RUN apt-get install -y \
 
 WORKDIR /px4/PX4-Autopilot
 
+ARG USERNAME=ubuntu
+ARG USER_UID=1000
+ARG GROUPNAME=ubuntu
+ARG USER_GID=1000
+
+RUN groupadd --gid ${USER_GID} ${GROUPNAME} && \
+    useradd --uid ${USER_UID} --gid ${USER_GID} -m -s /bin/bash ${USERNAME} && \
+    usermod -aG sudo ${USERNAME} && \
+    echo "${USERNAME} ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+
 CMD [ "bash" ]

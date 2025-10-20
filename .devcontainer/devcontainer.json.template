@@ -1,0 +1,28 @@
+{
+    "image": "px4-sim:noetic-x86-full",
+    "name": "PX4 Noetic Dev Container",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-vscode.cpptools",
+                "ms-vscode.cmake-tools",
+                "ms-python.python",
+                "twxs.cmake",
+                "ms-azuretools.vscode-docker"
+            ]
+        }
+    },
+    "runArgs": [
+        "--gpus=all",
+        "--runtime=nvidia",
+        "--network=host",
+        "-e", "DISPLAY=${localEnv:DISPLAY}"
+    ],
+    "mounts": [
+        "source=/tmp/.X11-unix,target=/tmp/.X11-unix,type=bind,consistency=cached",
+        "source=${localWorkspaceFolder},target=/ws,type=bind,consistency=cached"
+    ],
+    "containerUser": "wenliang",
+    "remoteUser": "wenliang",
+    "postCreateCommand": "echo 'Dev container ready!'"
+}
